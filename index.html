@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPY | DataScience</title>
+    <meta name="description"
+        content="Portfolio of Shreetesh Yadav, a Data Science & Designer (Graphic & Web) focusing on clean, scalable web applications.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="nav-logo">
+                <i class="ph-fill ph-circles-three-plus" style="color: var(--text-accent);"></i>
+                SHREETESH YADAV
+                <i class="ph-fill ph-circles-three-plus" style="color: var(--text-accent);"></i>
+            </a>
+
+            <button class="mobile-toggle" aria-label="Toggle Menu">
+                <i class="ph ph-list"></i>
+            </button>
+
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link active">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="projects.html" class="nav-link">Projects</a></li>
+                <li><a href="experience.html" class="nav-link">Experience</a></li>
+                <li><a href="github.html" class="nav-link">Open Source</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li>
+                    <button class="theme-toggle" id="theme-btn" aria-label="Toggle Dark Mode">
+                        <i class="ph ph-moon"></i>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- Hero Section -->
+        <section style="min-height: 80vh; display: flex; align-items: center; position: relative;">
+            <div style="max-width: 700px;">
+                <div style="margin-bottom: 3rem; margin-top: -3rem;">
+                    <!-- Profile Photo with Animated Border -->
+                    <div class="profile-photo">
+                        <img src="profile.png" alt="Shreetesh Yadav"
+                            style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; opacity: 0.9;">
+                    </div>
+                </div>
+
+                <h1>Building reliable software<br> with <span class="texture-text">purpose</span> and
+                    <span class="texture-text">clarity</span>.
+                </h1>
+
+                <p style="font-size: 1.25rem; margin-top: 1.5rem; max-width: 600px; line-height: 1.8;">
+                    I’m Shreetesh Yadav. Currently pursuing the IIT Madras BS in Data Science and Applications & I’m
+                    building skills in cybersecurity and working toward DevOps and cloud, with a background as a former
+                    web and graphic designer.
+                </p>
+
+                <div style="margin-top: 2.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="projects.html" class="btn btn-primary">View Projects</a>
+                    <a href="about.html" class="btn btn-primary">About Me</a>
+                    <a href="resume.pdf" class="btn btn-primary" download>
+                        <i class="ph ph-download-simple" style="margin-right: 0.5rem;"></i> Download CV
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mini Flip Clock (Absolute Top Right of Hero) -->
+            <div class="mini-flip-clock">
+                <div class="flip-unit" id="clock-h">
+                    <div class="top">00</div>
+                    <div class="bottom">00</div>
+                    <div class="top-flip">00</div>
+                    <div class="bottom-flip">00</div>
+                </div>
+                <div class="flip-sep">:</div>
+                <div class="flip-unit" id="clock-m">
+                    <div class="top">00</div>
+                    <div class="bottom">00</div>
+                    <div class="top-flip">00</div>
+                    <div class="bottom-flip">00</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trust/Philosophy Section (Subtle) -->
+        <section style="padding-top: 0;">
+            <div class="grid-3">
+                <div class="card" style="padding: 1.5rem;">
+                    <i class="ph ph-shield-check"
+                        style="font-size: 2rem; color: var(--text-accent); margin-bottom: 1rem;"></i>
+                    <h3>Clean & Secure Code</h3>
+                    <p style="font-size: 0.95rem; margin-bottom: 0;">Writing readable, maintainable code while following
+                        security best practices.</p>
+                </div>
+                <div class="card" style="padding: 1.5rem;">
+                    <i class="ph ph-stack" style="font-size: 2rem; color: var(--text-accent); margin-bottom: 1rem;"></i>
+                    <h3>Systems Thinking</h3>
+                    <p style="font-size: 0.95rem; margin-bottom: 0;">Understanding how applications, infrastructure, and
+                        networks work together as a system.</p>
+                </div>
+                <div class="card" style="padding: 1.5rem;">
+                    <i class="ph ph-chart-line-up"
+                        style="font-size: 2rem; color: var(--text-accent); margin-bottom: 1rem;"></i>
+                    <h3>Performance & Reliability</h3>
+                    <p style="font-size: 0.95rem; margin-bottom: 0;">Building efficient, reliable systems that scale
+                        under real-world workloads.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer style="border-top: 1px solid var(--border-color); padding: 3rem 0; margin-top: 4rem;">
+        <div class="container" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+            <p style="margin: 0;">&copy; 2026 Shreetesh Yadav.</p>
+            <div style="display: flex; gap: 1.5rem;">
+                <a href="#" style="color: var(--text-secondary);"><i class="ph ph-github-logo"
+                        style="font-size: 1.25rem;"></i></a>
+                <a href="#" style="color: var(--text-secondary);"><i class="ph ph-linkedin-logo"
+                        style="font-size: 1.25rem;"></i></a>
+                <a href="#" style="color: var(--text-secondary);"><i class="ph ph-twitter-logo"
+                        style="font-size: 1.25rem;"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

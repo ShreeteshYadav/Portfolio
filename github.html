@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Source | Shreetesh Yadav</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="nav-logo">
+                <i class="ph-fill ph-circles-three-plus" style="color: var(--text-accent);"></i>
+                SHREETESH YADAV
+            </a>
+            <button class="mobile-toggle"><i class="ph ph-list"></i></button>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="projects.html" class="nav-link">Projects</a></li>
+                <li><a href="experience.html" class="nav-link">Experience</a></li>
+                <li><a href="github.html" class="nav-link active">Open Source</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><button class="theme-toggle" id="theme-btn"><i class="ph ph-moon"></i></button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="page-header">
+            <h1>Open Source</h1>
+            <p>I believe in giving back to the community. Here are some of my contributions and experiments.</p>
+        </div>
+
+        <section style="padding-top: 0;">
+            <div class="card" style="margin-bottom: 2rem;">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h3 style="margin-bottom: 0.5rem;"><i class="ph ph-git-fork" style="margin-right: 0.5rem;"></i>
+                            react-use-window-scroll</h3>
+                        <p style="margin-bottom: 1rem;">A lightweight React hook for monitoring window scroll position
+                            with performance optimizations.</p>
+                        <div class="tag-container" style="padding-top: 0; margin-top: 0;">
+                            <span class="tag">TypeScript</span>
+                            <span class="tag" style="background: none; border: none; padding-left: 0;"><i
+                                    class="ph-fill ph-star" style="color: #eab308; margin-right: 4px;"></i> 124
+                                stars</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-secondary"
+                        style="height: fit-content; padding: 0.5rem 1rem; font-size: 0.85rem;">View Repo</a>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 2rem;">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h3 style="margin-bottom: 0.5rem;"><i class="ph ph-git-fork" style="margin-right: 0.5rem;"></i>
+                            node-express-boilerplate</h3>
+                        <p style="margin-bottom: 1rem;">A production-ready Express.js template with best practices for
+                            security and structure.</p>
+                        <div class="tag-container" style="padding-top: 0; margin-top: 0;">
+                            <span class="tag">JavaScript</span>
+                            <span class="tag" style="background: none; border: none; padding-left: 0;"><i
+                                    class="ph-fill ph-star" style="color: #eab308; margin-right: 4px;"></i> 89
+                                stars</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-secondary"
+                        style="height: fit-content; padding: 0.5rem 1rem; font-size: 0.85rem;">View Repo</a>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 2rem;">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h3 style="margin-bottom: 0.5rem;"><i class="ph ph-git-commit"
+                                style="margin-right: 0.5rem;"></i> Contributor to: VS Code</h3>
+                        <p style="margin-bottom: 1rem;">Submitted PRs fixing minor UI bugs in the settings editor view.
+                        </p>
+                        <div class="tag-container" style="padding-top: 0; margin-top: 0;">
+                            <span class="tag">Electron</span>
+                            <span class="tag" style="background: none; border: none; padding-left: 0;"><i
+                                    class="ph-fill ph-check-circle"
+                                    style="color: var(--text-accent); margin-right: 4px;"></i> Merged</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-secondary"
+                        style="height: fit-content; padding: 0.5rem 1rem; font-size: 0.85rem;">View PR</a>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 4rem;">
+                <a href="#" class="btn btn-primary"><i class="ph ph-github-logo"
+                        style="margin-right: 8px; font-size: 1.2rem;"></i> View GitHub Profile</a>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

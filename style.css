@@ -1,0 +1,838 @@
+/* -------------------------------------------------------------------------- */
+/*                                CURSOR FOLLOWER                             */
+/* -------------------------------------------------------------------------- */
+#cursor-follower {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--text-accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    /* Center mechanics */
+    will-change: transform, width, height, opacity;
+    mix-blend-mode: difference;
+    opacity: 0;
+    /* CSS transitions for non-positional properties */
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), height 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease, opacity 0.4s ease;
+}
+
+body.hovering-clickable #cursor-follower {
+    width: 56px;
+    /* Slightly larger for softer feel */
+    height: 56px;
+    background-color: rgba(45, 212, 191, 0.15);
+    /* Subtle tint */
+    border-color: transparent;
+}
+
+@media (pointer: coarse) {
+    #cursor-follower {
+        display: none;
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 VARIABLES                                  */
+/* -------------------------------------------------------------------------- */
+:root {
+    --bg-body: #F8FAFC;
+    --bg-card: #FFFFFF;
+    --bg-nav: rgba(248, 250, 252, 0.95);
+
+    --text-primary: #1E293B;
+    --text-secondary: #64748B;
+    --text-accent: #2DD4BF;
+
+    --border-color: #CBD5E1;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    /* Soft, diffuse shadow for hover */
+    --shadow-hover: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+
+    --radius-md: 8px;
+    --radius-lg: 12px;
+
+    --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+    --nav-height: 72px;
+    --container-width: 1100px;
+
+    --transition-base: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* Ultra-smooth ease for UI elements */
+    --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+    /* Background Gradients (Light) - Much more visible */
+    --gradient-1: rgba(14, 165, 233, 0.25);
+    /* Sky Blue */
+    --gradient-2: rgba(20, 184, 166, 0.25);
+    /* Teal */
+    --gradient-3: rgba(139, 92, 246, 0.25);
+    /* Violet */
+}
+
+body.dark-mode {
+    --bg-body: #0F172A;
+    --bg-card: #1E293B;
+    --bg-nav: rgba(15, 23, 42, 0.95);
+
+    --text-primary: #F1F5F9;
+    --text-secondary: #94A3B8;
+    --text-accent: #38BDF8;
+
+    --border-color: #334155;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    --shadow-hover: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+
+    /* Background Gradients (Dark) - Stronger Glowing effect */
+    --gradient-1: rgba(56, 189, 248, 0.25);
+    /* Cyan */
+    --gradient-2: rgba(45, 212, 191, 0.25);
+    /* Teal */
+    --gradient-3: rgba(167, 139, 250, 0.25);
+    /* Purple */
+}
+
+/* Define custom property for bg tracking */
+:root {
+    --bg-x: 50%;
+    --bg-y: 50%;
+}
+
+/* Define custom property for border animation */
+@property --border-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                   RESET                                    */
+/* -------------------------------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-body);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    /* Slow theme transition for calmness */
+    transition: background-color 0.6s ease, color 0.6s ease;
+    overflow-x: hidden;
+    cursor: default;
+    position: relative;
+    /* For pseudo-element absolute positioning context if needed, though fixed works better */
+}
+
+/* Animated Mesh Gradient Background */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -50;
+
+    /* Stronger Gradient Mesh tracking cursor */
+    background:
+        radial-gradient(circle at var(--bg-x) var(--bg-y), var(--gradient-1), transparent 50%),
+        /* Follows cursor */
+        radial-gradient(circle at 80% 20%, var(--gradient-2), transparent 40%),
+        radial-gradient(circle at 10% 80%, var(--gradient-3), transparent 40%),
+        radial-gradient(circle at 90% 90%, var(--gradient-2), transparent 40%);
+
+    /* Glassy blur */
+    filter: blur(60px);
+    opacity: 1;
+
+    /* Gentle drift for the static ones */
+    animation: bg-drift 10s ease-in-out infinite alternate;
+    pointer-events: none;
+    transition: background 0.1s ease;
+    /* Smooth catchup */
+}
+
+@keyframes bg-drift {
+    0% {
+        transform: scale(1.0);
+    }
+
+    100% {
+        transform: scale(1.05);
+    }
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition-base);
+}
+
+button {
+    font-family: inherit;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 COMPONENTS                                 */
+/* -------------------------------------------------------------------------- */
+h1,
+h2,
+h3,
+h4 {
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+}
+
+h1 {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+/* Animated Texture inside Text */
+.texture-text {
+    background: linear-gradient(120deg,
+            var(--text-primary) 0%,
+            var(--text-accent) 25%,
+            var(--text-primary) 50%,
+            var(--text-accent) 75%,
+            var(--text-primary) 100%);
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: text-shimmer 8s linear infinite;
+    display: inline-block;
+    /* Often needed for clip to work well */
+}
+
+@keyframes text-shimmer {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* Navbar Logo Animations */
+@keyframes logo-entrance {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes logo-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.nav-logo i {
+    animation: logo-entrance 1s ease-out forwards;
+    display: inline-block;
+}
+
+.nav-logo.reversed {
+    flex-direction: row-reverse;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: gap 0.3s ease;
+}
+
+h2 {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    margin-bottom: 1.5rem;
+}
+
+h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+}
+
+.profile-photo {
+    width: 120px;
+    /* Bigger size */
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 2rem;
+    position: relative;
+    /* For pseudo-element */
+    z-index: 1;
+    /* Ensure above border */
+}
+
+/* Animated Border for Profile */
+
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.4s var(--ease-soft), box-shadow 0.4s var(--ease-soft), opacity 0.2s ease;
+    font-size: 0.95rem;
+    will-change: transform;
+}
+
+.btn-primary {
+    background-color: var(--text-primary);
+    color: var(--bg-body);
+    border: 1px solid var(--text-primary);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    opacity: 0.95;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--bg-card);
+    border-color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                FLIP CLOCK                                  */
+/* -------------------------------------------------------------------------- */
+.mini-flip-clock {
+    position: absolute;
+    top: 0.5rem;
+    /* Higher up (more corner) */
+    right: -1rem;
+    /* Push towards right edge, offsetting padding */
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    /* Tighter gap */
+    font-family: var(--font-main);
+    /* Blend font */
+    font-weight: 700;
+    user-select: none;
+    pointer-events: none;
+    perspective: 400px;
+}
+
+@media (max-width: 768px) {
+    .mini-flip-clock {
+        position: relative;
+        margin-bottom: 2rem;
+        top: auto;
+        right: auto;
+    }
+}
+
+.flip-unit {
+    position: relative;
+    width: 36px;
+    /* Smaller */
+    height: 50px;
+    /* Smaller */
+    background: var(--bg-card);
+    /* Blend with theme */
+    border-radius: 4px;
+    box-shadow: var(--shadow-sm);
+    /* Softer shadow */
+    font-size: 1.75rem;
+    /* Adjusted font */
+    color: var(--text-primary);
+    /* Theme text color */
+    text-align: center;
+    line-height: 50px;
+    border: 1px solid var(--border-color);
+    /* Theme border */
+}
+
+.flip-sep {
+    font-size: 1.5rem;
+    color: var(--text-accent);
+    /* Theme accent */
+    margin-top: -6px;
+    animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* The physical card halves */
+.flip-unit .top,
+.flip-unit .bottom,
+.flip-unit .top-flip,
+.flip-unit .bottom-flip {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    background: var(--bg-card);
+    /* Theme background */
+    color: var(--text-primary);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.flip-unit .top,
+.flip-unit .top-flip {
+    top: 0;
+    border-radius: 4px 4px 0 0;
+    transform-origin: bottom;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    /* Subtle split */
+    line-height: 50px;
+}
+
+.flip-unit .bottom,
+.flip-unit .bottom-flip {
+    bottom: 0;
+    border-radius: 0 0 4px 4px;
+    transform-origin: top;
+    line-height: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Fix text overlay */
+.flip-unit .top-flip {
+    z-index: 2;
+    transform-origin: bottom;
+}
+
+.flip-unit .bottom-flip {
+    z-index: 2;
+    transform-origin: top;
+    transform: rotateX(90deg);
+    /* Start hidden */
+}
+
+.flip-unit .top {
+    z-index: 1;
+}
+
+.flip-unit .bottom {
+    z-index: 1;
+}
+
+/* Animation Triggers */
+.flip-unit.flipping .top-flip {
+    animation: flip-top 0.5s ease-in forwards;
+}
+
+.flip-unit.flipping .bottom-flip {
+    animation: flip-bottom 0.5s ease-out forwards;
+}
+
+@keyframes flip-top {
+    0% {
+        transform: rotateX(0deg);
+    }
+
+    100% {
+        transform: rotateX(-90deg);
+    }
+}
+
+@keyframes flip-bottom {
+    0% {
+        transform: rotateX(90deg);
+    }
+
+    100% {
+        transform: rotateX(0deg);
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 NAVIGATION                                 */
+/* -------------------------------------------------------------------------- */
+.navbar {
+    position: sticky;
+    top: 0;
+    height: var(--nav-height);
+    background-color: var(--bg-nav);
+    backdrop-filter: blur(12px);
+    z-index: 1000;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+
+.nav-container {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-link {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    position: relative;
+    padding: 0.5rem 0;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--text-primary);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--text-accent);
+    transition: width 0.3s var(--ease-soft);
+}
+
+.nav-link.active::after {
+    width: 100%;
+}
+
+.theme-toggle {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    transition: var(--transition-base);
+}
+
+.theme-toggle:hover {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    transform: rotate(15deg);
+}
+
+.mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    PAGES                                   */
+/* -------------------------------------------------------------------------- */
+section {
+    padding: 4rem 0;
+}
+
+.page-header {
+    padding: 4rem 0 2rem;
+    max-width: 800px;
+}
+
+/* 
+   CARD STYLES
+   Note: Transform transitions are disabled here so JS can handle the tilt smoothly.
+   We only use CSS for the non-spatial properties like shadow and border.
+*/
+.card {
+    /* Layout & Shape */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 2.5rem;
+    border-radius: 16px;
+
+    /* We use a transparent border to reserve the space, but the visual border comes from ::after */
+    border: 1px solid transparent;
+    position: relative;
+
+    /* Spotlight effect via gradient, combined with base color */
+    background:
+        radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(255, 255, 255, 0.06),
+            transparent 40%),
+        var(--bg-card);
+
+    /* Smooth transition for box-shadow to match floating feel */
+    transition: box-shadow 0.4s ease-out;
+
+    /* Hint for the browser to layerize these */
+    will-change: transform;
+}
+
+/* Mobile Back Button */
+.mobile-back-btn {
+    display: none;
+    /* Hidden on desktop */
+    position: fixed;
+    bottom: 2rem;
+    left: 1.5rem;
+    z-index: 9990;
+    /* High but below cursor if any */
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-md);
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mobile-back-btn:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    .mobile-back-btn {
+        display: flex;
+    }
+}
+
+/* Animated Border Pseudo-Element */
+.card::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    /* Align with the border */
+    border-radius: inherit;
+    padding: 1.5px;
+    /* Border width */
+
+    /* Conic gradient that spins */
+    background: conic-gradient(from var(--border-angle),
+            var(--border-color),
+            rgba(45, 212, 191, 0.3) 10%,
+            var(--text-accent) 25%,
+            rgba(45, 212, 191, 0.3) 40%,
+            var(--border-color) 60%);
+
+    /* Mask logic to cut out the center, leaving only the border ring */
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    pointer-events: none;
+    z-index: 2;
+    animation: border-spin 3s linear infinite;
+}
+
+@keyframes border-spin {
+    to {
+        --border-angle: 360deg;
+    }
+}
+
+.card:hover {
+    box-shadow: var(--shadow-hover);
+    /* Border color is handled by the animation now, but we can intensify shadow */
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2rem;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
+}
+
+.tag {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.75rem;
+    background-color: var(--bg-body);
+    color: var(--text-secondary);
+    border-radius: 100px;
+    border: 1px solid var(--border-color);
+    font-weight: 500;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 0.875rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+textarea {
+    resize: none;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--text-accent);
+    box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .card {
+        transition: none !important;
+        transform: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-menu {
+        position: fixed;
+        top: var(--nav-height);
+        left: 0;
+        width: 100%;
+        height: 0;
+        background-color: var(--bg-nav);
+        flex-direction: column;
+        overflow: hidden;
+        transition: height 0.4s var(--ease-soft);
+        padding: 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-menu.active {
+        height: 100vh;
+        padding: 2rem;
+    }
+
+    .mobile-toggle {
+        display: block;
+    }
+
+    .grid-2,
+    .grid-3,
+    .about-grid {
+        grid-template-columns: 1fr !important;
+        /* Force stack on mobile */
+        gap: 2rem;
+    }
+
+    .about-grid {
+        display: flex;
+        flex-direction: column-reverse;
+        /* Put sidebar (photo) on top if desired, or column for normal order. User usually likes photo first or content first? Let's stick to standard column for now, or column-reverse if sidebar is secondary. Actually, sidebar has photo, usually that's top. Let's try column-reverse so photo comes up? The sidebar is the second child. So column-reverse would put it first. */
+    }
+}
+
+/* Add about-grid definition for desktop */
+.about-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+}

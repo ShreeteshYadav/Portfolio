@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Shreetesh Yadav</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="nav-logo">
+                <i class="ph-fill ph-circles-three-plus" style="color: var(--text-accent);"></i>
+                SHREETESH YADAV
+            </a>
+            <button class="mobile-toggle"><i class="ph ph-list"></i></button>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="projects.html" class="nav-link active">Projects</a></li>
+                <li><a href="experience.html" class="nav-link">Experience</a></li>
+                <li><a href="github.html" class="nav-link">Open Source</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><button class="theme-toggle" id="theme-btn"><i class="ph ph-moon"></i></button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="page-header">
+            <h1>Selected Works</h1>
+            <p>A curated list of projects that showcase my skills in engineering and design.</p>
+        </div>
+
+        <section style="padding-top: 0;">
+            <div class="grid-2">
+                <!-- Project 1 -->
+                <article class="card">
+                    <div
+                        style="height: 200px; background-color: var(--bg-body); border-radius: var(--radius-md); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                        <i class="ph ph-kanban"
+                            style="font-size: 3rem; color: var(--text-secondary); opacity: 0.5;"></i>
+                    </div>
+                    <h3>TaskFlow Pro</h3>
+                    <p>A drag-and-drop project management tool for remote teams. Features real-time updates via
+                        WebSockets.</p>
+                    <div class="tag-container">
+                        <span class="tag">React</span>
+                        <span class="tag">Firebase</span>
+                        <span class="tag">Tailwind</span>
+                    </div>
+                    <div style="margin-top: 1.5rem;">
+                        <a href="#"
+                            style="font-weight: 500; color: var(--text-accent); display: flex; align-items: center; gap: 0.5rem;">
+                            View Project <i class="ph ph-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Project 2 -->
+                <article class="card">
+                    <div
+                        style="height: 200px; background-color: var(--bg-body); border-radius: var(--radius-md); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                        <i class="ph ph-chart-line-up"
+                            style="font-size: 3rem; color: var(--text-secondary); opacity: 0.5;"></i>
+                    </div>
+                    <h3>Finance AI Dashboard</h3>
+                    <p>Financial analytics platform using predictive algorithms to visualize spending trends.</p>
+                    <div class="tag-container">
+                        <span class="tag">Python</span>
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">D3.js</span>
+                    </div>
+                    <div style="margin-top: 1.5rem;">
+                        <a href="#"
+                            style="font-weight: 500; color: var(--text-accent); display: flex; align-items: center; gap: 0.5rem;">
+                            View Project <i class="ph ph-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Project 3 -->
+                <article class="card">
+                    <div
+                        style="height: 200px; background-color: var(--bg-body); border-radius: var(--radius-md); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                        <i class="ph ph-chat-circle-dots"
+                            style="font-size: 3rem; color: var(--text-secondary); opacity: 0.5;"></i>
+                    </div>
+                    <h3>Whisper Chat</h3>
+                    <p>End-to-end encrypted messaging application focused on privacy and zero-data retention.</p>
+                    <div class="tag-container">
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Socket.io</span>
+                        <span class="tag">Redis</span>
+                    </div>
+                    <div style="margin-top: 1.5rem;">
+                        <a href="#"
+                            style="font-weight: 500; color: var(--text-accent); display: flex; align-items: center; gap: 0.5rem;">
+                            View Project <i class="ph ph-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Project 4 -->
+                <article class="card">
+                    <div
+                        style="height: 200px; background-color: var(--bg-body); border-radius: var(--radius-md); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                        <i class="ph ph-robot" style="font-size: 3rem; color: var(--text-secondary); opacity: 0.5;"></i>
+                    </div>
+                    <h3>DocuBot</h3>
+                    <p>Auto-generate documentation from codebases using LLMs. Helps keeping docs up to date.</p>
+                    <div class="tag-container">
+                        <span class="tag">OpenAI API</span>
+                        <span class="tag">TypeScript</span>
+                        <span class="tag">Next.js</span>
+                    </div>
+                    <div style="margin-top: 1.5rem;">
+                        <a href="#"
+                            style="font-weight: 500; color: var(--text-accent); display: flex; align-items: center; gap: 0.5rem;">
+                            View Project <i class="ph ph-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
