@@ -205,6 +205,30 @@ h4 {
     color: var(--text-primary);
 }
 
+.glass-overlay {
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    width: 100%;
+    height: calc(100vh - var(--nav-height));
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(248, 250, 252, 0.5);
+    /* Light mode tint */
+    border-radius: 0;
+}
+
+body.dark-mode .glass-overlay {
+    background: rgba(15, 23, 42, 0.6);
+    /* Dark mode tint */
+}
+
 h1 {
     font-size: clamp(2.5rem, 5vw, 3.5rem);
 }
@@ -289,17 +313,40 @@ p {
 
 .profile-photo {
     width: 120px;
-    /* Bigger size */
     height: 120px;
     border-radius: 50%;
     margin-bottom: 2rem;
     position: relative;
-    /* For pseudo-element */
     z-index: 1;
-    /* Ensure above border */
+    animation: float-photo 6s ease-in-out infinite;
+}
+
+@keyframes float-photo {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 /* Animated Border for Profile */
+.profile-photo::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: conic-gradient(from var(--border-angle),
+            var(--bg-body),
+            var(--text-accent),
+            var(--bg-body));
+    z-index: -1;
+    animation: border-spin 3s linear infinite;
+    filter: blur(1px);
+}
 
 .container {
     max-width: var(--container-width);
@@ -835,4 +882,36 @@ label {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 4rem;
+}
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-hover);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    z-index: 10000;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s var(--ease-soft);
+    pointer-events: none;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.toast i {
+    color: var(--text-accent);
+    font-size: 1.25rem;
 }
