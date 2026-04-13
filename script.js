@@ -345,8 +345,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (cvModal) {
                 cvModal.classList.add('show');
                 document.body.style.overflow = 'hidden'; // Prevent background scrolling
-            } else {
-                showToast('Will be uploaded soon, work still ongoing.');
             }
         });
     });
@@ -364,29 +362,5 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.style.overflow = '';
             }
         });
-    }
-
-    function showToast(message) {
-        // Remove existing toast if any
-        const existingToast = document.querySelector('.toast');
-        if (existingToast) existingToast.remove();
-
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.innerHTML = `<i class="ph-fill ph-info"></i> <span>${message}</span>`;
-
-        document.body.appendChild(toast);
-
-        // Force reflow
-        toast.offsetHeight;
-
-        // Show
-        setTimeout(() => toast.classList.add('show'), 10);
-
-        // Hide after 3s
-        setTimeout(() => {
-            toast.classList.remove('show');
-            setTimeout(() => toast.remove(), 400); // Wait for transition
-        }, 3000);
     }
 });
