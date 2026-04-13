@@ -332,7 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
     /* -------------------------------------------------------------------------- */
     /*                         CV DOWNLOAD INTERCEPTION                           */
     /* -------------------------------------------------------------------------- */
-    const downloadLinks = document.querySelectorAll('a[href*="Resume.pdf"]');
+    const downloadLinks = document.querySelectorAll('a[href*="resume.pdf"]');
     const cvModal = document.getElementById('cv-modal');
     const closeModalBtn = document.querySelector('.close-modal');
 
