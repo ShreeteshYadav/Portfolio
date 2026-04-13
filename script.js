@@ -332,14 +332,39 @@ document.addEventListener('DOMContentLoaded', () => {
     /* -------------------------------------------------------------------------- */
     /*                         CV DOWNLOAD INTERCEPTION                           */
     /* -------------------------------------------------------------------------- */
-    const downloadLinks = document.querySelectorAll('a[href*="resume.pdf"]');
+    const downloadLinks = document.querySelectorAll('a[href*="Resume.pdf"]');
+    const cvModal = document.getElementById('cv-modal');
+    const closeModalBtn = document.querySelector('.close-modal');
 
     downloadLinks.forEach(link => {
+        // If the button is in the modal, we let it function normally (download)
+        if (link.closest('.modal')) return;
+
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            showToast('Will be uploaded soon, work still ongoing.');
+            if (cvModal) {
+                cvModal.classList.add('show');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            } else {
+                showToast('Will be uploaded soon, work still ongoing.');
+            }
         });
     });
+
+    if (closeModalBtn && cvModal) {
+        closeModalBtn.addEventListener('click', () => {
+            cvModal.classList.remove('show');
+            document.body.style.overflow = ''; // Restore scrolling
+        });
+
+        // Close on clicking outside the content
+        cvModal.addEventListener('click', (e) => {
+            if (e.target === cvModal) {
+                cvModal.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+    }
 
     function showToast(message) {
         // Remove existing toast if any
